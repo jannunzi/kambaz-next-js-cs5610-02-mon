@@ -1,0 +1,114 @@
+p {
+  background-color: red;
+  color: white;
+}
+p {
+  background-color: green;
+  color: white;
+}
+.wd-fg-color-black {
+  color: black;
+}
+.wd-fg-color-white {
+  color: white;
+}
+.wd-fg-color-blue {
+  color: #7070ff;
+}
+.wd-fg-color-red {
+  color: #ff7070;
+}
+.wd-fg-color-green {
+  color: green;
+}
+.wd-bg-color-yellow {
+  background-color: yellow;
+}
+.wd-bg-color-blue {
+  background-color: blue;
+}
+.wd-bg-color-red {
+  background-color: red;
+}
+.wd-bg-color-green {
+  background-color: green;
+}
+.wd-bg-color-gray {
+  background-color: lightgrey;
+}
+.wd-dimension-portrait {
+  width: 75px;
+  height: 100px;
+  overflow: hidden;
+}
+.wd-dimension-landscape {
+  width: 100px;
+  height: 75px;
+  overflow: hidden;
+}
+.wd-dimension-square {
+  width: 75px;
+  height: 75px;
+  overflow: hidden;
+}
+.wd-pos-relative-nudge-down-right {
+  position: relative;
+  top: 20px;
+  left: 10px;
+  width: 20px;
+  overflow: hidden;
+}
+
+.wd-pos-relative-nudge-up-right {
+  position: relative;
+  bottom: 20px;
+  left: 20px;
+}
+.wd-pos-relative {
+  position: relative;
+}
+
+.wd-pos-absolute-10-10 {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.wd-pos-absolute-50-50 {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
+.wd-pos-absolute-120-20 {
+  position: absolute;
+  left: 120px;
+  top: 20px;
+}
+.wd-pos-fixed {
+  position: fixed;
+  right: 0px;
+  bottom: 50%;
+}
+
+.wd-zindex-bring-to-front {
+  z-index: 100;
+}
+
+.wd-flex-row-container {
+  display: flex;
+  flex-direction: row;
+}
+.wd-flex-row-container > div {
+  height: 100px;
+  padding: 10px;
+  white-space: nowrap;
+}
+.wd-flex-grow-1 {
+  flex-grow: 1;
+}
+.wd-width-75px {
+  /* Room for "Column 1" + 10px padding under border-box */
+  width: 110px;
+  flex-shrink: 0;
+}
