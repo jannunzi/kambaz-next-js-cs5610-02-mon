@@ -1,16 +1,15 @@
 import KambazNavigation from "./Navigation";
+import "./kambaz.css";
 export default function KambazLayout(
   { children }: { children: React.ReactNode }) {
   return (
-    <table>
-      <tr>
-        <td align="left" valign="top">
-          <KambazNavigation />
-        </td>
-        <td align="left" valign="top">
-          {children}
-        </td>
-      </tr>
-    </table>
+    <div className="flex">
+      <div className="bg-black w-[150px] hidden md:block fixed top-0 left-0 bottom-0">
+        <KambazNavigation />
+      </div>
+      <div className="flex-grow md:pl-[150px]">
+        {children}
+      </div>
+    </div>
   );
 }
