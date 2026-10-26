@@ -1,13 +1,22 @@
-import Link from "next/link";
 import CourseCard from "./CourseCard";
+import * as db from "../database";
 
 export default function Dashboard() {
+  const courses = db.courses;
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <CourseCard title="Web Development" code="CS5610" instructor="John Doe" ta="Jane Doe" href="/courses/cs5610" />
-      <CourseCard title="Data Bases" code="CS5200" instructor="John Doe" ta="Jane Doe" href="/courses/cs5200" />
-      <CourseCard title="Web Development" code="CS5610" instructor="John Doe" ta="Jane Doe" href="/courses/cs5610" />
+    <div id="wd-dashboard">
+      <h1 id="wd-dashboard-title">Dashboard</h1>
+      <hr />
+      <h2 id="wd-dashboard-published">Published Courses ({courses.length})</h2>
+      <hr />
+      <div
+        id="wd-dashboard-courses"
+        className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+      >
+        {courses.map((course) => (
+          <CourseCard key={course._id} {...course} />
+        ))}
+      </div>
     </div>
   );
 }
