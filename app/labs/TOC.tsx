@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/labs/lab2", id: "wd-lab2-link", label: "Lab 2", match: (p: string) => p.includes("/lab2") },
   { href: "/labs/lab3", id: "wd-lab3-link", label: "Lab 3", match: (p: string) => p.includes("/lab3") },
   { href: "/", id: "wd-kambaz-link", label: "Kambaz", match: () => false },
+  { href: "/labs/lab4", id: "wd-lab4-link", label: "Lab 4", match: (p: string) => p.includes("/lab4") },
 ] as const;
 
 const activeStyle = {
