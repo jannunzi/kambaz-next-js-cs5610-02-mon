@@ -7,7 +7,7 @@ export default function KambazLayout(
       <div className="bg-black w-[150px] hidden md:block fixed top-0 left-0 bottom-0">
         <KambazNavigation />
       </div>
-      <div className="flex-grow md:pl-[150px]">
+      <div className="min-w-0 flex-grow p-4 md:pl-[calc(150px+1rem)]">
         {children}
       </div>
     </div>

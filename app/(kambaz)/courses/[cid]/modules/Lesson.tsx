@@ -9,11 +9,12 @@ export default function Lesson({
   children?: ReactNode;
 }) {
   return (
-    <li className="wd-lesson">
-      <div className="wd-title bg-white p-2 border border-gray-500 border-1 border-solid border-l-3 border-l-green-700">{title}
-        <FaCheckCircle className="text-green-700 float-end text-2xl" />
+    <li className="wd-lesson border-l-[3px] border-green-600 p-3 pl-1">
+      <div className="flex items-center justify-between">
+        <span className="wd-title">{title}</span>
+        <FaCheckCircle className="text-green-600" />
       </div>
-      <ul className="wd-content">{children}</ul>
+      <ul className="wd-content mt-2 list-disc pl-6">{children}</ul>
     </li>
   );
 }

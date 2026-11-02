@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FaBook, FaCalendar, FaCompass, FaFlask, FaHome, FaInbox, FaQuestion, FaTools, FaUser } from "react-icons/fa";
 
 export default function KambazNavigation() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const links = [
     { label: "Account", href: "/account/profile", icon: <FaUser /> },
     { label: "Dashboard", href: "/dashboard", icon: <FaHome /> },
@@ -17,24 +17,21 @@ export default function KambazNavigation() {
     { label: "Labs", href: "/labs/lab1", icon: <FaFlask /> },
   ];
   return (
-    <ul className="text-center bg-black text-white">
-      {links.map((link) => (
-        <li key={link.href} className={`p-2 ${pathname.includes(link.href) ? "bg-white text-black" : "bg-black text-white"}`}>
-          <Link className={`text-white text-center ${pathname.includes(link.href) ? "text-black" : "text-white"}`} href={link.href}>
-            <div className="text-red-500 text-center text-3xl block inline-block">
-              {link.icon}
-            </div>
-            <br />
-            <span className={`text-center ${pathname.includes(link.href) ? "text-black" : "text-white"}`}>
-              {link.label}
-            </span>
-          </Link>
-        </li>
-      ))
-      }
-      <li>
-        {pathname}
-      </li>
+    <ul className="w-full bg-black text-center text-white">
+      {links.map((link) => {
+        const active = pathname.includes(link.href);
+        return (
+          <li key={link.href} className={`p-2 ${active ? "bg-white" : "bg-black"}`}>
+            <Link
+              className={`flex flex-col items-center no-underline ${active ? "text-black" : "text-white"}`}
+              href={link.href}
+            >
+              <span className="text-3xl leading-none text-red-500">{link.icon}</span>
+              <span className="leading-tight">{link.label}</span>
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }

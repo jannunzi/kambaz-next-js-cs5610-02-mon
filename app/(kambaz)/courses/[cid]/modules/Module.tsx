@@ -9,11 +9,12 @@ export default function Module({
   children?: ReactNode;
 }) {
   return (
-    <li className="wd-module border border-gray-500 border-0 border-solid border-none mx-3 mb-3">
-      <h4 className="wd-title bg-gray-200 p-2">{title}
-        <FaCheckCircle className="text-green-700 float-end text-2xl" />
-      </h4>
-      <ul className="wd-lessons">{children}</ul>
+    <li className="wd-module mb-5 overflow-hidden border border-neutral-400 p-0 text-xl">
+      <div className="wd-title flex items-center justify-between bg-neutral-200 p-3 ps-2">
+        <span>{title}</span>
+        <FaCheckCircle className="text-green-600" />
+      </div>
+      <ul className="wd-lessons m-0 list-none p-0">{children}</ul>
     </li>
   );
 }
