@@ -1,13 +1,80 @@
-import Link from "next/link";
-import * as db from "../../../../database";
+"use client";
 
-export default async function AssignmentEditor({
-  params,
-}: {
-  params: Promise<{ cid: string; aid: string }>;
-}) {
-  const { cid, aid } = await params;
-  const assignment = db.assignments.find((a) => a._id === aid);
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import {
+  useAssignmentsStore,
+  type Assignment,
+} from "../../../../store/assignmentsStore";
+
+function loadAssignment(
+  aid: string,
+  course: string,
+  assignments: Assignment[],
+) {
+  if (aid === "new") {
+    return { draft: blankAssignment(course), missing: false };
+  }
+  const found = assignments.find(
+    (assignment) => assignment._id === aid && assignment.course === course,
+  );
+  if (!found) {
+    return { draft: blankAssignment(course), missing: true };
+  }
+  return { draft: { ...found, until: found.until ?? "" }, missing: false };
+}
+
+const blankAssignment = (course: string): Assignment => ({
+  _id: "",
+  title: "",
+  course,
+  description: "",
+  points: 100,
+  due: "",
+  available: "",
+  until: "",
+});
+
+export default function AssignmentEditor() {
+  const params = useParams();
+  const cid = typeof params.cid === "string" ? params.cid : "";
+  const aid = typeof params.aid === "string" ? params.aid : "";
+  const router = useRouter();
+  const assignments = useAssignmentsStore((state) => state.assignments);
+  const addAssignment = useAssignmentsStore((state) => state.addAssignment);
+  const updateAssignment = useAssignmentsStore((state) => state.updateAssignment);
+  const loaded = loadAssignment(aid, cid, assignments);
+  const [routeKey, setRouteKey] = useState(`${cid}:${aid}`);
+  const [draft, setDraft] = useState<Assignment>(loaded.draft);
+  const [missing, setMissing] = useState(loaded.missing);
+  if (`${cid}:${aid}` !== routeKey) {
+    setRouteKey(`${cid}:${aid}`);
+    setDraft(loaded.draft);
+    setMissing(loaded.missing);
+  }
+
+  const back = () => router.push(`/courses/${cid}/assignments`);
+
+  const save = () => {
+    if (aid === "new") {
+      addAssignment({ ...draft, course: cid });
+    } else {
+      updateAssignment({ ...draft, course: cid });
+    }
+    back();
+  };
+
+  if (missing) {
+    return (
+      <div id="wd-assignments-editor" className="max-w-3xl space-y-4 p-4">
+        <p>Assignment not found.</p>
+        <button type="button" id="wd-cancel" onClick={back} className="rounded bg-neutral-200 px-4 py-2">
+          Cancel
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div id="wd-assignments-editor" className="max-w-3xl space-y-4 p-4">
       <div>
@@ -16,14 +83,16 @@ export default async function AssignmentEditor({
         </label>
         <input
           id="wd-name"
-          defaultValue={assignment?.title ?? ""}
+          value={draft.title}
+          onChange={(e) => setDraft({ ...draft, title: e.target.value })}
           className="w-full rounded border px-3 py-2"
         />
       </div>
       <textarea
         id="wd-description"
         rows={6}
-        defaultValue={assignment?.description ?? ""}
+        value={draft.description}
+        onChange={(e) => setDraft({ ...draft, description: e.target.value })}
         className="w-full rounded border px-3 py-2"
       />
       <div className="grid grid-cols-[10rem_1fr] items-center gap-4">
@@ -32,7 +101,11 @@ export default async function AssignmentEditor({
         </label>
         <input
           id="wd-points"
-          defaultValue={assignment?.points ?? 100}
+          type="number"
+          value={draft.points}
+          onChange={(e) =>
+            setDraft({ ...draft, points: Number(e.target.value) })
+          }
           className="w-full rounded border px-3 py-2"
         />
 
@@ -116,7 +189,8 @@ export default async function AssignmentEditor({
             <input
               type="date"
               id="wd-due-date"
-              defaultValue={assignment?.due}
+              value={draft.due}
+              onChange={(e) => setDraft({ ...draft, due: e.target.value })}
               className="w-full rounded border px-3 py-2"
             />
           </div>
@@ -128,7 +202,10 @@ export default async function AssignmentEditor({
               <input
                 type="date"
                 id="wd-available-from"
-                defaultValue={assignment?.available}
+                value={draft.available}
+                onChange={(e) =>
+                  setDraft({ ...draft, available: e.target.value })
+                }
                 className="w-full rounded border px-3 py-2"
               />
             </div>
@@ -139,6 +216,8 @@ export default async function AssignmentEditor({
               <input
                 type="date"
                 id="wd-available-until"
+                value={draft.until ?? ""}
+                onChange={(e) => setDraft({ ...draft, until: e.target.value })}
                 className="w-full rounded border px-3 py-2"
               />
             </div>
@@ -147,20 +226,22 @@ export default async function AssignmentEditor({
       </div>
       <hr />
       <div className="flex justify-end gap-2">
-        <Link
-          href={`/courses/${cid}/assignments`}
+        <button
+          type="button"
           id="wd-cancel"
+          onClick={back}
           className="rounded bg-neutral-200 px-4 py-2"
         >
           Cancel
-        </Link>
-        <Link
-          href={`/courses/${cid}/assignments`}
+        </button>
+        <button
+          type="button"
           id="wd-save"
+          onClick={save}
           className="rounded bg-red-600 px-4 py-2 text-white"
         >
           Save
-        </Link>
+        </button>
       </div>
     </div>
   );

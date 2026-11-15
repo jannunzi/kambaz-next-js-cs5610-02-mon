@@ -1,61 +1,110 @@
-import Link from "next/link";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAccountContext, type User } from "../AccountContext";
+
+const fieldClass = "mb-2 w-full rounded border border-neutral-300 px-3 py-2";
 
 export default function Profile() {
+  const { currentUser, setCurrentUser, updateUser } = useAccountContext();
+  const [profile, setProfile] = useState<User | null>(currentUser);
+  const [dob, setDob] = useState("2000-01-01");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!currentUser) router.push("/account/signin");
+  }, [currentUser, router]);
+
+  const update = () => {
+    if (!profile) return;
+    updateUser(profile);
+    setCurrentUser(profile);
+  };
+
+  const signout = () => {
+    setCurrentUser(null);
+    router.push("/account/signin");
+  };
+
+  if (!profile) return null;
   return (
     <div id="wd-profile-screen" className="max-w-sm">
       <h1 className="mb-3 text-2xl font-semibold">Profile</h1>
       <input
-        defaultValue="alice"
+        id="wd-username"
         placeholder="username"
-        className="wd-username mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        value={profile.username}
+        onChange={(e) => setProfile({ ...profile, username: e.target.value })}
+        className={`wd-username ${fieldClass}`}
       />
       <input
-        defaultValue="123"
+        id="wd-password"
         placeholder="password"
         type="password"
-        className="wd-password mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        value={profile.password}
+        onChange={(e) => setProfile({ ...profile, password: e.target.value })}
+        className={`wd-password ${fieldClass}`}
       />
       <input
-        defaultValue="Alice"
         placeholder="First Name"
         id="wd-firstname"
-        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        value={profile.firstName}
+        onChange={(e) => setProfile({ ...profile, firstName: e.target.value })}
+        className={fieldClass}
       />
       <input
-        defaultValue="Wonderland"
         placeholder="Last Name"
         id="wd-lastname"
-        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        value={profile.lastName}
+        onChange={(e) => setProfile({ ...profile, lastName: e.target.value })}
+        className={fieldClass}
       />
       <input
-        defaultValue="2000-01-01"
         type="date"
         id="wd-dob"
-        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        value={dob}
+        onChange={(e) => setDob(e.target.value)}
+        className={fieldClass}
       />
       <input
-        defaultValue="alice@wonderland"
         type="email"
         id="wd-email"
-        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        placeholder="email"
+        value={profile.email}
+        onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+        className={fieldClass}
       />
       <select
-        defaultValue="FACULTY"
         id="wd-role"
-        className="mb-2 w-full rounded border border-neutral-300 px-3 py-2"
+        value={profile.role}
+        onChange={(e) =>
+          setProfile({ ...profile, role: e.target.value as User["role"] })
+        }
+        className={fieldClass}
       >
         <option value="USER">User</option>
         <option value="ADMIN">Admin</option>
         <option value="FACULTY">Faculty</option>
         <option value="STUDENT">Student</option>
+        <option value="TA">TA</option>
       </select>
-      <Link
-        href="/account/signin"
+      <button
+        type="button"
+        onClick={update}
+        id="wd-update-btn"
+        className="mb-2 block w-full rounded bg-yellow-400 px-3 py-2 text-center font-medium"
+      >
+        Update
+      </button>
+      <button
+        type="button"
+        onClick={signout}
         id="wd-signout-btn"
-        className="block w-full rounded bg-red-600 px-3 py-2 text-center text-white no-underline"
+        className="block w-full rounded bg-red-600 px-3 py-2 text-center text-white"
       >
         Sign out
-      </Link>
+      </button>
     </div>
   );
 }

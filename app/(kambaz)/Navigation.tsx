@@ -6,7 +6,7 @@ import { FaBook, FaCalendar, FaCompass, FaFlask, FaHome, FaInbox, FaQuestion, Fa
 export default function KambazNavigation() {
   const pathname = usePathname() ?? "";
   const links = [
-    { label: "Account", href: "/account/profile", icon: <FaUser /> },
+    { label: "Account", href: "/account", icon: <FaUser /> },
     { label: "Dashboard", href: "/dashboard", icon: <FaHome /> },
     { label: "Courses", href: "/courses", icon: <FaBook /> },
     { label: "Calendar", href: "/calendar", icon: <FaCalendar /> },

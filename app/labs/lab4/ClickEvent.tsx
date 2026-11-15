@@ -2,7 +2,7 @@
 
 const hello = (message: string, event: React.MouseEvent<HTMLButtonElement>) => {
 
-  alert(event.target.value);
+  alert(event.currentTarget.value);
   event.preventDefault();
   event.stopPropagation();
 };
