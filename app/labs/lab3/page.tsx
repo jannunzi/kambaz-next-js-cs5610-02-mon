@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import ImpliedReturn from "./ImpliedReturn";
 import Destructing from "./Destructing";
 import FunctionDestructing from "./FunctionDestructing";
@@ -19,7 +20,9 @@ export default function Lab3Page() {
     <div>
       <h1>Lab 3</h1>
       <ServerComponentDemo />
-      <ClientComponentDemo />
+      <Suspense>
+        <ClientComponentDemo />
+      </Suspense>
       <ImpliedReturn />
       <Destructing />
       <FunctionDestructing />
